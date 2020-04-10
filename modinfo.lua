@@ -3,7 +3,7 @@ meta =
     -- ID of your mod; Make sure this is unique!
     -- Will be used for identifying the mod in dependency lists
     -- Will be changed to workshop ID (ensuring uniqueness) when you upload the mod to the workshop
-    id = "202004-ImprovedStash",
+    id = "ImprovedStash",
 
     -- Name of your mod; You may want this to be unique, but it's not absolutely necessary.
     -- This is an additional helper attribute for you to easily identify your mod in the Mods() list
@@ -12,8 +12,11 @@ meta =
     -- Title of your mod that will be displayed to players
     title = "Improved Stash",
 
+    -- Type of your mod, either "mod" or "factionpack"
+    type = "mod",
+    
     -- Description of your mod that will be displayed to players
-    description = "improve the drop behavior of hidden stashes in the galaxy",
+    description = "Improve the drop behavior of hidden stashes in the galaxy to have a tiny chance for legendary and exotic drops. This should make stashes still valuable to discover without skewing the difficulty.",
 
     -- Insert all authors into this list
     authors = {"crazeejeeves"},
@@ -49,7 +52,7 @@ meta =
 
     -- Set to true if the mod changes the savegame in a potentially breaking way, as in it adds scripts or mechanics that get saved into database and no longer work once the mod gets disabled
     -- logically, if a mod is client-side only, it can't alter savegames, but Avorion doesn't check for that at the moment
-    saveGameAltering = true,
+    saveGameAltering = false,
 
     -- Contact info for other users to reach you in case they have questions
     contact = "crazeejeeves@hotmail.com",
