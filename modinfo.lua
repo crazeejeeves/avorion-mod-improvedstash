@@ -1,9 +1,10 @@
+
 meta =
 {
     -- ID of your mod; Make sure this is unique!
     -- Will be used for identifying the mod in dependency lists
     -- Will be changed to workshop ID (ensuring uniqueness) when you upload the mod to the workshop
-    id = "ImprovedStash",
+    id = "2058470633",
 
     -- Name of your mod; You may want this to be unique, but it's not absolutely necessary.
     -- This is an additional helper attribute for you to easily identify your mod in the Mods() list
@@ -14,7 +15,7 @@ meta =
 
     -- Type of your mod, either "mod" or "factionpack"
     type = "mod",
-    
+
     -- Description of your mod that will be displayed to players
     description = "Improve the drop behavior of hidden stashes in the galaxy to have a tiny chance for legendary and exotic drops. This should make stashes still valuable to discover without skewing the difficulty.",
 
@@ -23,7 +24,7 @@ meta =
 
     -- Version of your mod, should be in format 1.0.0 (major.minor.patch) or 1.0 (major.minor)
     -- This will be used to check for unmet dependencies or incompatibilities
-    version = "0.1.0",
+    version = "0.1",
 
     -- If your mod requires dependencies, enter them here. The game will check that all dependencies given here are met.
     -- Possible attributes:
@@ -41,7 +42,7 @@ meta =
     --      {id = "OptionalMod", min = "0.2", optional = true}, -- we support OptionalMod optionally, starting at version 0.2
     -- },
     dependencies = {
-        {id = "Avorion", min = "1.0.0", max = "1.0.*"}
+        {id = "Avorion", min = "1.0", max = "1.0.*"}
     },
 
     -- Set to true if the mod only has to run on the server. Clients will get notified that the mod is running on the server, but they won't download it to themselves
