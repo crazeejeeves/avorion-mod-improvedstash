@@ -41,3 +41,46 @@ function receiveUpgrade(faction)
     
     faction:getInventory():addOrDrop(upgrade)
 end
+
+function receiveDrop(faction)
+    -- Drop is based on a 50% chance of either a turret or a system
+    if random():getFloat() < 0.5 then
+        receiveTurret(faction)
+    else
+        receiveUpgrade(faction)
+    end
+end
+
+local original_claim = claim
+function claim()
+    -- Perform default behavior
+    original_claim()
+
+    local receiver, ship, player = getInteractingFaction(callingPlayer, AlliancePrivilege.AddItems, AlliancePrivilege.AddResources)
+    if not receiver then return end
+
+    local entity = Entity()
+    local dist = ship:getNearestDistance(entity)
+    if dist > 20.0 then
+        -- Abort message display. Default behavior already performs this.
+        -- The check is duplicated as there is no return value from the original function
+        -- to detect the abort of 'claim'
+        return
+    end
+
+    -- Default behavior includes a guaranteed drop with a 50% chance of a second
+    -- The following drops are ADDITIONAL to the default.
+
+    local extraGuaranteedDrops = 2
+    local extraProbableDrops = 3
+
+    for i = 1, extraGuaranteedDrops do
+        receiveDrop(receiver)
+    end
+
+    for i = 1, extraProbableDrops do
+        if random():getFloat() < 0.5 then
+            receiveDrop(receiver)
+        end
+    end
+end
