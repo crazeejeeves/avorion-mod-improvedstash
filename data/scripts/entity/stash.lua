@@ -51,6 +51,14 @@ function receiveDrop(faction)
     end
 end
 
+function getExtraDropProbabilities()
+    local probabilities = {
+        0.30, 0.15, 0.08, 0.04, 0.02
+    }
+
+    return probabilities
+end
+
 local original_claim = claim
 function claim()
     -- Perform default behavior
@@ -68,18 +76,12 @@ function claim()
         return
     end
 
-    -- Default behavior includes a guaranteed drop with a 50% chance of a second
-    -- The following drops are ADDITIONAL to the default.
-
-    local extraGuaranteedDrops = 2
-    local extraProbableDrops = 3
-
-    for i = 1, extraGuaranteedDrops do
-        receiveDrop(receiver)
-    end
-
-    for i = 1, extraProbableDrops do
-        if random():getFloat() < 0.5 then
+    local probabilities = getExtraDropProbabilities()
+    local p = 0
+    for _, probability in pairs(probabilities) do
+        p = random():getFloat()
+        player:sendChatMessage("Improved Stash", ChatMessageType.Normal, "Evaluating probability %1% against chance threshold %2%", p, probability)
+        if p <= probability then
             receiveDrop(receiver)
         end
     end
