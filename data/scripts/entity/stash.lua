@@ -4,7 +4,7 @@ function receiveMoney(faction)
     local x, y = Sector():getCoordinates()
     local money = 50000 * Balancing_GetSectorRichnessFactor(x, y)
 
-    faction:receive("Found %1% Credits in a stash."%_T, money)
+    Sector():dropBundle(Entity().translationf, faction, nil, money)
 end
 
 function getDropRarity()
@@ -28,16 +28,21 @@ function receiveTurret(faction)
     local x, y = Sector():getCoordinates()
 
     local rarity = getDropRarity()
-    local turret = InventoryTurret(SectorTurretGenerator():generate(x, y, 0, rarity))
+    local turret = SectorTurretGenerator():generate(x, y, 0, rarity)
 
-    faction:getInventory():addOrDrop(turret)
+    Sector():dropTurret(Entity().translationf, faction, nil, turret)
 end
 
 function receiveUpgrade(faction)
     local x, y = Sector():getCoordinates()
 
     local rarity = getDropRarity()
-    local upgrade = UpgradeGenerator():generateSectorSystem(x, y, rarity)
-    
-    faction:getInventory():addOrDrop(upgrade)
+
+    local generator = UpgradeGenerator()
+    if faction.isPlayer and faction.ownsBlackMarketDLC then
+        generator.blackMarketUpgradesEnabled = true
+    end
+
+    local upgrade = generator:generateSectorSystem(x, y, rarity)
+    Sector():dropUpgrade(Entity().translationf, faction, nil, upgrade)
 end
