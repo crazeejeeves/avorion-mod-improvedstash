@@ -27,22 +27,25 @@ end
 function receiveTurret(faction)
     local x, y = Sector():getCoordinates()
 
-    local rarity = getDropRarity()
-    local turret = SectorTurretGenerator():generate(x, y, 0, rarity)
+    Sector():dropTurret(Entity().translationf, faction, nil, turret)
 
+    local generator = SectorTurretGenerator()
+    generator.minRarity = getDropRarity()
+
+    local turret = generator:generate(x, y, 0)
     Sector():dropTurret(Entity().translationf, faction, nil, turret)
 end
 
 function receiveUpgrade(faction)
     local x, y = Sector():getCoordinates()
 
-    local rarity = getDropRarity()
-
     local generator = UpgradeGenerator()
+    generator.minRarity = getDropRarity()
+
     if faction.isPlayer and faction.ownsBlackMarketDLC then
         generator.blackMarketUpgradesEnabled = true
     end
 
-    local upgrade = generator:generateSectorSystem(x, y, rarity)
+    local upgrade = generator:generateSectorSystem(x, y)
     Sector():dropUpgrade(Entity().translationf, faction, nil, upgrade)
 end
