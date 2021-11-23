@@ -25,8 +25,6 @@ end
 function receiveTurret(faction)
     local x, y = Sector():getCoordinates()
 
-    Sector():dropTurret(Entity().translationf, faction, nil, turret)
-
     local generator = SectorTurretGenerator()
     generator.minRarity = getDropRarity()
 
