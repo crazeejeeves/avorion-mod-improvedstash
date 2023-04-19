@@ -2,7 +2,7 @@
 function receiveMoney(faction)
 
     local x, y = Sector():getCoordinates()
-    local money = 60000 * Balancing_GetSectorRichnessFactor(x, y)
+    local money = 60000 * Balancing_GetSectorRewardFactor(x, y)
 
     Sector():dropBundle(Entity().translationf, faction, nil, money)
 end
@@ -40,6 +40,10 @@ function receiveUpgrade(faction)
 
     if faction.isPlayer and faction.ownsBlackMarketDLC then
         generator.blackMarketUpgradesEnabled = true
+    end
+
+    if faction.isPlayer and faction.ownsIntoTheRiftDLC then
+        generator.intoTheRiftUpgradesEnabled = true
     end
 
     local upgrade = generator:generateSectorSystem(x, y)
