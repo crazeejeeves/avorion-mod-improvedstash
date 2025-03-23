@@ -10,7 +10,7 @@ function receiveMoney(faction)
     Sector():dropBundle(Entity().translationf, faction, nil, money)
 
     local material = getMaterialType(x, y)
-    local resources = 1000 * sectorMultiplier * bonusMultiplier
+    local resources = 10000 * sectorMultiplier * bonusMultiplier
     Sector():dropResources(Entity().translationf, faction, nil, material, resources)
 end
 
