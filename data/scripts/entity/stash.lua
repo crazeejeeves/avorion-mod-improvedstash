@@ -19,7 +19,7 @@ function getMaterialType(x, y)
     return Material(getValueFromDistribution(probabilities))
 end
 
-function getBonanzaMultiplier()
+function getBonusMultiplier()
     local probability = random():getFloat()
     local multiplier = 1.0
 
