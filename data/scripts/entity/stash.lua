@@ -1,22 +1,47 @@
-include ("utility")
+include("utility")
+
+local RewardType = {
+    Money = 0,
+    Resource = 1,
+    Turrent = 2,
+    Upgrade = 3
+}
 
 function receiveMoney(faction)
-
     local x, y = Sector():getCoordinates()
-    local sectorMultiplier = Balancing_GetSectorRewardFactor(x, y)
     local bonusMultiplier = getBonusMultiplier()
 
-    local money = 50000 * sectorMultiplier * bonusMultiplier
+    local scaledReward = getSectorRewardValue(x, y, RewardType.Money)
+    local money = scaledReward * bonusMultiplier
     Sector():dropBundle(Entity().translationf, faction, nil, money)
 
+    scaledReward = getSectorRewardValue(x, y, RewardType.Resource)
+    local resources = scaledReward * bonusMultiplier
     local material = getMaterialType(x, y)
-    local resources = 10000 * sectorMultiplier * bonusMultiplier
     Sector():dropResources(Entity().translationf, faction, nil, material, resources)
 end
 
 function getMaterialType(x, y)
     local probabilities = Balancing_GetMaterialProbability(x, y)
     return Material(getValueFromDistribution(probabilities))
+end
+
+function getSectorRewardValue(x, y, rewardType)
+    local sigmoid_vars                = {}
+    sigmoid_vars[RewardType.Money]    = { min = 50000, max = 1500000, optimal_dist = 250, bias_start = 0.016405753, bias_mean = 0.951090399 }
+    sigmoid_vars[RewardType.Resource] = { min = 5000, max = 25000, optimal_dist = 250, bias_start = 0.010683913, bias_mean = 1.999999997 }
+
+
+    local distance = math.sqrt((x ^ 2) + (y ^ 2))
+    return calculateSectorRewardFactor(distance, sigmoid_vars[rewardType])
+end
+
+function calculateSectorRewardFactor(distance, s_args)
+    local factor = s_args.max -
+        (s_args.max - s_args.min) *
+        1 / ((1 + math.exp(-s_args.bias_start * (distance - s_args.optimal_dist))) ^ s_args.bias_mean)
+
+    return factor
 end
 
 function getBonusMultiplier()
