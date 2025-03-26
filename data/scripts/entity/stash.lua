@@ -74,13 +74,29 @@ function getDropRarity()
     return rarity
 end
 
+function getTechOffsetDistance(x, y)
+    local techOffset = 2
+    local probability = random():getFloat()
+    if probability < 0.005 then
+        techOffset = 7
+    elseif probability < 0.10 then
+        techOffset = 5
+    end
+
+    -- Safety check to prevent offset from causing negative calculations in the generator
+    local offsetLimit = length(vec2(x, y)) / 10
+    techOffset = math.min(offsetLimit, techOffset)
+    return (-techOffset * 10)
+end
+
 function receiveTurret(faction)
     local x, y = Sector():getCoordinates()
 
     local generator = SectorTurretGenerator()
     generator.minRarity = getDropRarity()
 
-    local turret = generator:generate(x, y, 0)
+    local techOffset = getTechOffsetDistance(x, y)
+    local turret = generator:generate(x, y, techOffset)
     Sector():dropTurret(Entity().translationf, faction, nil, turret)
 end
 
